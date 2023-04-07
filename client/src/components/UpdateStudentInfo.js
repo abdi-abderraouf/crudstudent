@@ -76,7 +76,6 @@ class UpdateStudentInfo extends Component {
           <div className="col-md-8 m-auto">
           <form noValidate onSubmit={this.onSubmit}>
             <div className='form-group'>
-              <label htmlFor="title">name</label>
               <input
                 type='text'
                 placeholder='name of the student'
@@ -88,7 +87,6 @@ class UpdateStudentInfo extends Component {
             </div>
             <br />
             <div className='form-group'>
-            <label htmlFor="author">email</label>
               <input
                 type='text'
                 placeholder='email'
@@ -100,7 +98,6 @@ class UpdateStudentInfo extends Component {
             </div>
 
             <div className='form-group'>
-            <label htmlFor="inscription">inscription</label>
               <input
                 type='number'
                 placeholder='inscription of this student'

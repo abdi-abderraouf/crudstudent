@@ -18,6 +18,7 @@ db.mongoose.connect(db.url,{
     useUnifiedTopology:true
 }).then(()=>{
     console.log('connected to data base')
+    
 }).catch(err=>{
     console.log('probleme de connection',err)
     process.exit()

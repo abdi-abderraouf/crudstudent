@@ -4,31 +4,46 @@ const Students=db.students
 function validateName(name)
 {
     var nameRegex = /^[a-zA-Z\-]+$/;
-    var validfirstStudentname  =name.match(nameRegex);
-    if(validfirstStudentname  == null){
-        console.log("Your first name is not valid. Only characters A-Z, a-z and '-' are  acceptable.");
+    var validStudentname  =name.match(nameRegex);
+    if(validStudentname  == null){
+        console.log("Your  name is not valid. Only characters A-Z, a-z and '-' are  acceptable.");
         return false;
 }
 else
 {
-    console.log("Your first name is  valid");
+    console.log("Your  name is  valid");
 
     return true;
 }
 }
 function validateInscription(inscription)
-{
-    const insc = parseInt(inscription);
-    if(1<insc<100)
+{     const insc = inscription
+    if((insc < 100) && (insc > 1))
     {
-    console.log("correcte");
+    console.log("inscription entre 1 et 100 c correcte",insc);
     return true;
     }
     else {
-    console.log("incorrecte");
+    console.log("inscription incorrecte");
     return false;
     }
 }
+
+/*function validatePhoto(photo)
+{
+    
+    if(photo)
+    {
+    console.log("existe photo ");
+    return true;
+    }
+    else {
+    console.log("error pas de photo");
+    return false;
+    }
+}*/
+
+
 function validatemail(email)
 {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -61,6 +76,11 @@ else if(!validatemail(req.body.email))
         res.status(400).send({message:"le mail doit être valide!"});
         return;
     }
+    /*else if(!validatePhoto(req.body.photo))
+    {
+        res.status(400).send({message:"pas de photo"});
+        return;
+    }*/
     else if(!validateInscription(req.body.inscription))
     {
         res.status(400).send({message:"le numero d'inscription doit etre correcte!"});
@@ -70,10 +90,12 @@ else if(!validatemail(req.body.email))
 const student =new Students({
     name:req.body.name,
     email:req.body.email,
-    inscription:req.body.inscription
+    inscription:req.body.inscription,
+    photo:req.body.photo
 });
 student.save(student).then((data) => {
    res.send(data) 
+   
 }).catch((err) => res.status(500).send(
     { message:err.message||"error while adding"}
 ))};
@@ -82,15 +104,15 @@ exports.findAll = (req, res) => {
       var condition = name
           ? { name: { $regex: new RegExp(name), $options: "i" } }
           : {};
-          Students.find(condition).then((data)=>{  
+          students.find(condition).then((data)=>{  
             res.send(data);
                  }).catch((err)=>{
                  res.status(500).send({message:err.message || "erreur lors de la recherche"})
                  })
         }
 exports.findById =  (req, res) => {
-            Students.findById(req.params.id)
-              .then(res.send(data))
+            students.findById(req.params.id)
+              .then(student=>res.json(student))
               .catch(err => res.status(404).json({ nostudentfound: 'No student found' }));
           };
         
@@ -123,9 +145,7 @@ exports.update = (req, res) => {
     .then(data => {
     if (!data) {
     res.status(404).send({
-    message: `Cannot delete student with id=${id}. Maybe user was not
-   found!`
-    });
+    message: 'can not delete student with id=${id}. Maybe user was notfound!'});
     } else {
     res.send({
     message: "student was deleted successfully!"

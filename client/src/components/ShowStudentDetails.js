@@ -15,7 +15,7 @@ class showStudentDetails extends Component {
     //console.log("Print id: " + this.props.match.params.id);
     axios.get('http://localhost:8080/students/'+this.props.match.params.id)
       .then(res => {
-         console.log("Print-showStudentDetails-API-response: " + res.data);
+         //console.log("Print-showStudentDetails-API-response: " + res.data);
         this.setState({
           student: res.data
         })
@@ -26,13 +26,18 @@ class showStudentDetails extends Component {
   };
 
   onDeleteClick (id) {
+    
     // eslint-disable-next-line no-restricted-globals
     if(confirm("êtes vous sûre de vouloir supprimer"))
     {
+      
     axios
-      .delete(`http://localhost:8080/students/${this.state.id}`)
+      .delete('http://localhost:8080/students/'+id)
       .then(res => {
+        alert('deleted')
         this.props.history.push("/");
+        //console.log('deleted');
+
       })
       .catch(err => {
         console.log("Error form ShowDetails_deleteClick");
@@ -57,18 +62,23 @@ class showStudentDetails extends Component {
         <tbody>
           <tr>
             <th scope="row">1</th>
-            <td>Title</td>
-            <td>{ student.title }</td>
+            <td>name</td>
+            <td>{student.name}</td>
           </tr>
           <tr>
             <th scope="row">2</th>
             <td>email</td>
-            <td>{ student.email }</td>
+            <td>{student.email}</td>
           </tr>
           <tr>
             <th scope="row">3</th>
-            <td>inscription</td>
-            <td>{ student.inscription }</td>
+            <td>inscription </td>
+            <td>{student.inscription}</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>photo</td>
+            <td>{student.photo} <img src= {student.photo} alt="" height = {500} width={1000} /></td>
           </tr>
         </tbody>
       </table>

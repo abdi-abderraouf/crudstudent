@@ -6,6 +6,9 @@ module.exports= mongoose => {
             name:String,
             email:String,
             inscription:Number,
+          photo: { type :String, 
+            required:true,
+           },//on peut mettre required au lieu de function de validation
         },
            {timestamp:true}
     );
